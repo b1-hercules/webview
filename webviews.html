@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    #imgUpload, #videoUpload {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>My Web Page</h1>
+
+  <button class="btn btn-primary" onclick="getLocation()">Get Location</button>
+  <p id="demo"></p>
+
+  <button class="btn btn-primary" onclick="document.getElementById('imgUpload').click()">Take Photo</button>
+  <input type="file" accept="image/*" capture="camera" id="imgUpload">
+
+  <button class="btn btn-primary" onclick="document.getElementById('videoUpload').click()">Record Video</button>
+  <input type="file" accept="video/*" capture="camcorder" id="videoUpload">
+
+  <button class="btn btn-primary" onclick="downloadMedia('imgUpload')">Save Image</button>
+  <button class="btn btn-primary" onclick="downloadMedia('videoUpload')">Save Video</button>
+
+  <button class="btn btn-primary" onclick="document.getElementById('cameraInput').click()">Open Camera Belakang</button>
+  <input type="file" accept="image/*" capture="environment" id="cameraInput" name="cameraInput" style="display:none">
+
+  <button class="btn btn-primary" onclick="document.getElementById('cameraInput').click()">Open Camera depan</button>
+  <input type="file" accept="image/*" capture="user" id="cameraInput" name="cameraInput" style="display:none">
+
+</div>
+
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude;
+}
+
+function downloadMedia(id) {
+  var mediaData = document.getElementById(id).files[0];
+  if (!mediaData) {
+    alert('Please take a photo or record a video first');
+    return;
+  }
+
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(mediaData);
+  a.download = id === 'imgUpload' ? 'image.png' : 'video.mp4';
+  a.click();
+}
+</script>
+
+</body>
+</html>
